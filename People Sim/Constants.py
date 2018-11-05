@@ -1,0 +1,28 @@
+"""
+Project Name: 
+File Name: 
+Author: Lex Hall
+Last Updated: 
+Python Version: 2.7
+Pygame Version: 1.9.1.win32-py2.7
+"""
+
+## COLORS ##
+RED = (255, 0, 0)
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+GREY = (200, 200, 200)
+BLUE = (0, 0, 200)
+YELLOW = (200, 200, 0)
+SKINTONE = (255, 205, 148)
+GREENSKINTONE = (200, 255, 100)
+GREEN = (0, 200, 0)
+## COLORS ##
+
+FRAMERATE = 60
+
+GAME_WIDTH = 800
+GAME_HEIGHT = 800
+PIXELSIZE = 10
+GAME_XCELLS = GAME_WIDTH / PIXELSIZE
+GAME_YCELLS = GAME_HEIGHT / PIXELSIZE
