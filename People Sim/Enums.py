@@ -15,6 +15,8 @@ class VillagerState(enumerate):
     building = 4
     starving = 5
     dead = 6
+    selected = 7
+    forceMove = 8
 
 class VillagerMood(enumerate):
     content = 0

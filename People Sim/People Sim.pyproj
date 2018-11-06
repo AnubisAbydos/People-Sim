@@ -22,17 +22,23 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Building.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Constants.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Enums.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Map.py">
+    <Compile Include="MapController.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="People_Sim.py" />
     <Compile Include="Villager.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="VillagerList.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
