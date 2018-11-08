@@ -9,7 +9,7 @@ Pygame Version: 1.9.1.win32-py2.7
 
 class VillagerState(enumerate):
     idle = 0
-    searching = 1
+    searchingForFood = 1
     moving = 2
     eating = 3
     building = 4
@@ -17,6 +17,8 @@ class VillagerState(enumerate):
     dead = 6
     selected = 7
     forceMove = 8
+    harvesting = 9
+    searchingForWood = 10
 
 class VillagerMood(enumerate):
     content = 0
@@ -25,3 +27,4 @@ class VillagerMood(enumerate):
     angry = 3
     dead = 4
     panicked = 5
+    working = 6

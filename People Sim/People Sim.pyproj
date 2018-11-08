@@ -22,7 +22,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Building.py">
+    <Compile Include="Buildings.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Constants.py">
@@ -38,7 +38,7 @@
     <Compile Include="Villager.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="VillagerList.py">
+    <Compile Include="VillagerController.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

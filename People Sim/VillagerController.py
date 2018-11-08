@@ -13,7 +13,7 @@ import Villager
 from Enums import *
 import Constants as const
 
-class VillagerList(object):
+class VillagerController(object):
     def __init__(self, screen, mapController):
         self.screen = screen
         self.mapController = mapController
@@ -28,11 +28,18 @@ class VillagerList(object):
     def checkCollision(self, coords):
         xGrid = int(round(coords[0] / const.PIXELSIZE))
         yGrid = int(round(coords[1] / const.PIXELSIZE))
+        villagerWasSelected = False
         for villager in self.villagers:
             villager.isSelected = False
             if villager.xGridPos >= xGrid - 1 and villager.xGridPos <= xGrid + 1:
                 if villager.yGridPos >= yGrid - 1 and villager.yGridPos <= yGrid + 1:
                     villager.isSelected = True
+                    villagerWasSelected = True
+        return villagerWasSelected
+
+    def deselectAllVillagers(self):
+        for villager in self.villagers:
+            villager.isSelected = False
 
     def forceMove(self, coords):
         xGrid = int(round(coords[0] / const.PIXELSIZE))
