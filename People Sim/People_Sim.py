@@ -37,6 +37,7 @@ def main():
 
     # Variables used during loop - Tracks States
     buildingSelected = False
+    buildingSelector = -1
 
     # Start the clock
     clock = pygame.time.Clock()
@@ -62,8 +63,14 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     done = True
-                if event.key == pygame.K_1:
+                elif event.key == pygame.K_1:
                     buildingSelected = not buildingSelected
+                    buildingSelector = 1
+                    villagerController.deselectAllVillagers()
+                    mapController.deselectAllTiles()
+                elif event.key == pygame.K_2:
+                    buildingSelected = not buildingSelected
+                    buildingSelector = 2
                     villagerController.deselectAllVillagers()
                     mapController.deselectAllTiles()
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -72,8 +79,9 @@ def main():
                     if not buildingSelected:
                         handleMouseClick(mousePos, mapController, villagerController, False)
                     else:
-                        mapController.spawnBuilding(mousePos)
+                        mapController.spawnBuilding(mousePos, buildingSelector)
                         buildingSelected = False
+                        buildingSelector = -1
                 # Was the click Right Button?
                 elif event.button == 3:
                     buildingSelected = False

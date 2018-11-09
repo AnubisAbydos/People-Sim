@@ -8,6 +8,7 @@ Pygame Version: 1.9.1.win32-py2.7
 """
 
 import pygame
+import math
 from random import *
 import Constants as const
 from Enums import *
@@ -190,7 +191,18 @@ class Villager(object):
         elif self.state == VillagerState.building:
             building = mapController.getBuildingReadyToBuild()
             if building:
-                self.goToLocation = building.getBuildLocation()
+                buildingCenter = building.getBuildLocation()
+                if math.sqrt(pow((buildingCenter[0] - self.xGridPos), 2) + pow((buildingCenter[1] - self.yGridPos), 2)) > 10:
+                    hypoSide = math.sqrt(pow((buildingCenter[0] - self.xGridPos), 2) + pow((buildingCenter[1] - self.yGridPos), 2))
+                    bSide = buildingCenter[1] - self.yGridPos
+                    angle = math.asin(bSide/hypoSide)
+                    if self.xGridPos <= buildingCenter[0]:
+                        newPointX = buildingCenter[0] - (5 * math.cos(angle))
+                    else:
+                        newPointX = buildingCenter[0] + (5 * math.cos(angle))
+                    newPointY = buildingCenter[1] - (5 * math.sin(angle)) 
+                    self.goToLocation = (round(newPointX), round(newPointY))
+                    print("Angle", angle, "Building Center", buildingCenter, "Go To", self.goToLocation)
                 self.isTargetReached = self.moveToTarget()
                 if self.isTargetReached and self.woodValue != 0 and self.tickCount == const.FRAMERATE:
                     self.woodValue -= 1

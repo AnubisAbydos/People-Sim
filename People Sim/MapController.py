@@ -24,15 +24,13 @@ class MapController(object):
         self.mapY = 400
         self.textFont = pygame.font.SysFont("Comic Sans MS", 10)
         for i in xrange(const.STARTSPAWNFOODSOURCES):
-            self.spawnFood()
+            self.spawnFood(randint(1, const.GAME_XCELLS - 10), randint(1, const.GAME_XCELLS - 10))
         for i in xrange(const.STARTSPAWNWOODSOURCES):
             self.spawnWood()
 
-    def spawnFood(self):
-        x = randint(1, const.GAME_XCELLS - 10)
-        y = randint(1, const.GAME_YCELLS - 10)
+    def spawnFood(self, x, y):
         if (x,y) in self.foodTiles or (x,y) in self.woodTiles:
-            self.spawnFood()
+            self.spawnFood(x + 1, y + 1)
         else:
             self.foodTiles[x, y] = FoodTile(x, y)
 
@@ -44,11 +42,14 @@ class MapController(object):
         else:
             self.woodTiles[x, y] = WoodTile(x, y)
 
-    def spawnBuilding(self, mousePos):
+    def spawnBuilding(self, mousePos, buildingSelector):
         mouseActualPos = (mousePos[0] + self.mapX, mousePos[1] + self.mapY)
         xGridPos = int(round(mouseActualPos[0] / const.PIXELSIZE))
         yGridPos = int(round(mouseActualPos[1] / const.PIXELSIZE))
-        self.buildings.append(Buildings.VillageBuilding(xGridPos, yGridPos))
+        if buildingSelector == 1:
+            self.buildings.append(Buildings.VillageBuilding(xGridPos, yGridPos))
+        elif buildingSelector == 2:
+            self.buildings.append(Buildings.FarmHouse(xGridPos, yGridPos))
 
     def handleScrolling(self, keys, mousePos):
         if keys[pygame.K_UP]:
@@ -81,7 +82,7 @@ class MapController(object):
     def tick(self, buildingSelected, mousePos):
         self.updateTiles()
         for building in self.buildings:
-            building.update()
+            building.update(self)
         if buildingSelected:
             mouseActualPos = (mousePos[0] + self.mapX, mousePos[1] + self.mapY)
             xGridPos = int(round(mouseActualPos[0] / const.PIXELSIZE))
@@ -122,10 +123,22 @@ class MapController(object):
         self.drawMiniMap()
 
     def isTileFood(self, coords):
-        return coords in self.foodTiles
+        if coords in self.foodTiles:
+            if self.foodTiles[coords].getFoodValue() > 0:
+                return coords in self.foodTiles
+            else:
+                return False
+        else:
+            return False
 
     def isTileWood(self, coords):
-        return coords in self.woodTiles
+        if coords in self.woodTiles:
+            if self.woodTiles[coords].getWoodValue() > 0:
+                return coords in self.woodTiles
+            else:
+                return False
+        else:
+            return False
 
     def isBuildingReadyToBuild(self):
         for building in self.buildings:

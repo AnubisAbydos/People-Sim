@@ -8,6 +8,7 @@ Pygame Version: 1.9.1.win32-py2.7
 """
 
 import pygame
+from random import *
 import Constants as const
 
 class VillageBuilding(object):
@@ -26,9 +27,9 @@ class VillageBuilding(object):
         self.currentWood = 0
         self.buildLocationCount = -1
 
-    def update(self):
+    def update(self, mapController):
         self.buildingProgress = (self.currentWood * 100) / self.requiredWood
-        if self.buildingProgress == 100:
+        if self.buildingProgress >= 100:
             self.isComplete = True
 
     def draw(self, gameMap):
@@ -40,7 +41,35 @@ class VillageBuilding(object):
             pygame.draw.rect(gameMap, const.DARKBROWN, self.rect)
 
     def getBuildLocation(self):
-        return(self.originXGrid, self.originYGrid)
+        return(self.originXGrid + 5, self.originYGrid + 5)
 
     def inputWood(self):
         self.currentWood += 1
+
+
+class FarmHouse(VillageBuilding):
+    #def __init__(self, originXGrid, originYGrid):
+        #VillageBuilding.__init__(self, originXGrid, originXGrid)
+
+    def update(self, mapController):
+        VillageBuilding.update(self, mapController)
+        if self.isComplete:
+            if randint(0,10000) == 1:
+                newFood = self.getBuildLocation()
+                if randint(0,1) == 0:
+                    newFoodX = newFood[0] + randint(5,20)
+                else:
+                    newFoodX = newFood[0] - randint(5,20)
+                if randint(0,1) == 0:
+                    newFoodY = newFood[1] + randint(5,20)
+                else:
+                    newFoodY = newFood[1] - randint(5,20)
+                mapController.spawnFood(newFoodX, newFoodY)
+
+    def draw(self, gameMap):
+        if not self.isComplete:
+            pygame.draw.rect(gameMap, const.YELLOW, self.rect, 3)
+            pygame.draw.rect(gameMap, const.YELLOW, (self.originXActual, self.originYActual + 100 - self.buildingProgress,
+                                                    self.gridWidth * const.PIXELSIZE, self.buildingProgress))
+        else:
+            pygame.draw.rect(gameMap, const.DARKYELLOW, self.rect)
