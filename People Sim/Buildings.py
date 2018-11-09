@@ -48,8 +48,6 @@ class VillageBuilding(object):
 
 
 class FarmHouse(VillageBuilding):
-    #def __init__(self, originXGrid, originYGrid):
-        #VillageBuilding.__init__(self, originXGrid, originXGrid)
 
     def update(self, mapController):
         VillageBuilding.update(self, mapController)
