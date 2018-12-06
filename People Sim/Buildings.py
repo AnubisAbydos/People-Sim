@@ -1,10 +1,10 @@
 """
-Project Name: 
-File Name: 
+Project Name: People Sim
+File Name: Buildings.py
 Author: Lex Hall
-Last Updated: 
-Python Version: 2.7
-Pygame Version: 1.9.1.win32-py2.7
+Last Updated: 11-13-2018
+Python Version: 3.6
+Pygame Version: 1.9.3
 """
 
 import pygame

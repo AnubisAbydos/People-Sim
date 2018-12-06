@@ -1,10 +1,10 @@
 """
-Project Name: 
-File Name: 
+Project Name: People Sim
+File Name: MapController.py
 Author: Lex Hall
-Last Updated: 
-Python Version: 2.7
-Pygame Version: 1.9.1.win32-py2.7
+Last Updated: 11-13-2018
+Python Version: 3.6
+Pygame Version: 1.9.3
 """
 
 import pygame
@@ -23,9 +23,9 @@ class MapController(object):
         self.mapX = 400
         self.mapY = 400
         self.textFont = pygame.font.SysFont("Comic Sans MS", 10)
-        for i in xrange(const.STARTSPAWNFOODSOURCES):
+        for i in range(const.STARTSPAWNFOODSOURCES):
             self.spawnFood(randint(1, const.GAME_XCELLS - 10), randint(1, const.GAME_XCELLS - 10))
-        for i in xrange(const.STARTSPAWNWOODSOURCES):
+        for i in range(const.STARTSPAWNWOODSOURCES):
             self.spawnWood()
 
     def spawnFood(self, x, y):

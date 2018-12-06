@@ -1,10 +1,10 @@
 """
-Project Name: 
-File Name: 
+Project Name: People Sim
+File Name: People_Sim.py
 Author: Lex Hall
-Last Updated: 
-Python Version: 2.7
-Pygame Version: 1.9.1.win32-py2.7
+Last Updated: 11-13-2018
+Python Version: 3.6
+Pygame Version: 1.9.3
 """
 
 import sys
@@ -88,7 +88,7 @@ def main():
                     handleMouseClick(mousePos, mapController, villagerController, True)
                     
 
-        # Clear map and screen before tick and draw
+        # Clear map and screen before tick and draw calls
         pygame.draw.rect(gameMap, const.BLACK, (0, 0, const.MAP_WIDTH, const.MAP_HEIGHT))
         pygame.draw.rect(screen, const.BLACK, (0, 0, const.SCREEN_WIDTH, const.SCREEN_HEIGHT))
 

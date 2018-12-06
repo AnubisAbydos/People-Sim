@@ -1,10 +1,10 @@
 """
-Project Name: 
-File Name: 
+Project Name: People Sim
+File Name: Villager.py
 Author: Lex Hall
-Last Updated: 
-Python Version: 2.7
-Pygame Version: 1.9.1.win32-py2.7
+Last Updated: 12-6-2018
+Python Version: 3.6
+Pygame Version: 1.9.3
 """
 
 import pygame
@@ -81,9 +81,11 @@ class Villager(object):
 
         # STATE = IDLE
         elif self.state == VillagerState.idle:
+            # If food low look for food
             if self.foodValue <= 5:
                 self.state = VillagerState.searchingForFood
                 self.mood = VillagerMood.sad
+            # If building needs to be built
             elif mapController.isBuildingReadyToBuild():
                 if self.woodValue == 0:
                     self.state = VillagerState.searchingForWood
@@ -91,6 +93,7 @@ class Villager(object):
                 else:
                     self.state = VillagerState.building
                     self.mood = VillagerMood.working
+            # Random wander walk set up
             elif not self.isTargetReached and not self.idleTargetSet and randint(0, 100) < 1:
                 while True:
                     x = self.xGridPos + randint(-4, 4)
@@ -113,6 +116,7 @@ class Villager(object):
         elif self.state == VillagerState.searchingForFood:
             if self.searchLoop == -1:
                 self.searchLoop = 1
+                # Passed bools indicate type of search
                 if self.lookForTile(mapController, True, False):
                     self.state = VillagerState.moving
                     self.mood = VillagerMood.angry
@@ -122,6 +126,7 @@ class Villager(object):
                 if self.tickCount == const.FRAMERATE / 4:
                     self.searchLoop += 1
                     self.tickCount = 0
+                    # Passed bools indicate type of search
                     if self.lookForTile(mapController, True, False):
                         self.state = VillagerState.moving
                         self.mood = VillagerMood.angry
@@ -132,6 +137,7 @@ class Villager(object):
         elif self.state == VillagerState.searchingForWood:
             if self.searchLoop == -1:
                 self.searchLoop = 1
+                # Passed bools indicate type of search
                 if self.lookForTile(mapController, False, True):
                     self.state = VillagerState.moving
                     self.mood = VillagerMood.working
@@ -141,6 +147,7 @@ class Villager(object):
                 if self.tickCount == const.FRAMERATE / 4:
                     self.searchLoop += 1
                     self.tickCount = 0
+                    # Passed bools indicate type of search
                     if self.lookForTile(mapController, False, True):
                         self.state = VillagerState.moving
                         self.mood = VillagerMood.working
@@ -202,7 +209,6 @@ class Villager(object):
                         newPointX = buildingCenter[0] + (5 * math.cos(angle))
                     newPointY = buildingCenter[1] - (5 * math.sin(angle)) 
                     self.goToLocation = (round(newPointX), round(newPointY))
-                    print("Angle", angle, "Building Center", buildingCenter, "Go To", self.goToLocation)
                 self.isTargetReached = self.moveToTarget()
                 if self.isTargetReached and self.woodValue != 0 and self.tickCount == const.FRAMERATE:
                     self.woodValue -= 1
@@ -328,66 +334,66 @@ class Villager(object):
             return False
 
 
-    def lookForTile(self, mapController, isFood, isWood):
+    def lookForTile(self, mapController, isFoodSearch, isWoodSearch):
         # Set and Check first search location (1 up from start)
         if self.searchLoop == 1:
             self.lookingTile = (self.xGridPos, self.yGridPos - 1)
-            if isFood:
+            if isFoodSearch:
                 if mapController.isTileFood(self.lookingTile):
                     return True
-            elif isWood:
+            elif isWoodSearch:
                 if mapController.isTileWood(self.lookingTile):
                     return True
 
         # Look 40 Tiles away if fail cancel search and update state and mood
         elif self.searchLoop >= 40:
-            if isFood:
+            if isFoodSearch:
                 self.state = VillagerState.starving
                 self.mood = VillagerMood.panicked
                 self.searchLoop = -1
                 return False
-            elif isWood:
+            elif isWoodSearch:
                 self.state = VillagerState.idle
                 self.searchLoop = -1
                 return False            
         
         # Right : move right from current location checking each spot
-        for i in xrange((self.searchLoop * 2) - 1):
+        for i in range((self.searchLoop * 2) - 1):
             self.lookingTile = (self.lookingTile[0] + 1, self.lookingTile[1])
-            if isFood:
+            if isFoodSearch:
                 if mapController.isTileFood(self.lookingTile):
                     return True
-            elif isWood:
+            elif isWoodSearch:
                 if mapController.isTileWood(self.lookingTile):
                     return True
 
         # Down : move down from current location checking each spot
-        for i in xrange(self.searchLoop * 2):
+        for i in range(self.searchLoop * 2):
             self.lookingTile = (self.lookingTile[0], self.lookingTile[1] + 1)
-            if isFood:
+            if isFoodSearch:
                 if mapController.isTileFood(self.lookingTile):
                     return True
-            elif isWood:
+            elif isWoodSearch:
                 if mapController.isTileWood(self.lookingTile):
                     return True
 
         # Left : move left from current location checking each spot
-        for i in xrange(self.searchLoop * 2):
+        for i in range(self.searchLoop * 2):
             self.lookingTile = (self.lookingTile[0] - 1, self.lookingTile[1])
-            if isFood:
+            if isFoodSearch:
                 if mapController.isTileFood(self.lookingTile):
                     return True
-            elif isWood:
+            elif isWoodSearch:
                 if mapController.isTileWood(self.lookingTile):
                     return True
 
         # Up : move up from current location checking each spot
-        for i in xrange((self.searchLoop * 2) + 1):
+        for i in range((self.searchLoop * 2) + 1):
             self.lookingTile = (self.lookingTile[0], self.lookingTile[1] - 1)
-            if isFood:
+            if isFoodSearch:
                 if mapController.isTileFood(self.lookingTile):
                     return True
-            elif isWood:
+            elif isWoodSearch:
                 if mapController.isTileWood(self.lookingTile):
                     return True
         # If chosen tile not found this loop return False
